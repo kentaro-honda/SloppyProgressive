@@ -1,3 +1,4 @@
 *~
 *.app
 *.dSYM
+SP*.plist

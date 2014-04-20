@@ -1,9 +1,13 @@
 #import <Cocoa/Cocoa.h>
+#import "SPGUIController.h"
 
-@interface SPAppDelegate : NSObject <NSApplicationDelegate>
+@interface SPAppDelegate : NSObject <NSApplicationDelegate, SPGUIControllerDelegate>
 {
 }
 
-@property (weak) NSWindow *window;
+@property SPGUIController *guicontroller;
+@property NSObjectController *objectController;
+
+- (void)buttonClicked:(id)sender;
 
 @end

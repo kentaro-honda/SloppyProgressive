@@ -1,17 +1,41 @@
 #import "SPAppDelegate.h"
+#import "SPStopWatch.h"
+
+@interface SPAppDelegate ()
+{
+}
+@property (strong) SPStopWatch *stopWatch;
+@end
 
 @implementation SPAppDelegate
 
-@synthesize window;
+- (id)init
+{
+	self = [super init];
+
+	if (self){
+		self.stopWatch = [[SPStopWatch alloc] init];
+		self.objectController = [[NSObjectController alloc] initWithContent:self.stopWatch];
+		self.guicontroller = [[SPGUIController alloc] initWithDelegate:self];
+	}
+
+	return self;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	[self.window makeKeyAndOrderFront:self];
+	[self.guicontroller showWindow];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-	self.window = nil;
+	self.guicontroller = nil;
+}
+
+- (void)buttonClicked:(id)sender
+{
+	[self.guicontroller showTimerWindow];
+	[self.stopWatch start];
 }
 
 @end

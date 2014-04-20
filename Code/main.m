@@ -6,26 +6,12 @@ NSMenu *newMainMenu(void);
 int main(int argc, char *argv[])
 {
 	SPAppDelegate *c;
-	NSMenu *menu;
-	NSWindow *window;
 
 	@autoreleasepool{
 		[NSApplication sharedApplication];
-		/* make a window */
-		window = [[NSWindow alloc] initWithContentRect:NSMakeRect(350.0, 300.0, 480.0, 480.0) 
-											 styleMask:NSTitledWindowMask|NSMiniaturizableWindowMask 
-											   backing:NSBackingStoreBuffered 
-												 defer:NO];
-		/* initialize App's delegate */
 		c = [[SPAppDelegate alloc] init];
-		c.window = window;
 		[NSApp setDelegate:c];
-		
-		/* make the menu */
-		menu = newMainMenu();
-		[NSApp setMainMenu:menu];
-		menu = nil;
-
+		[NSApp setMainMenu:newMainMenu()];
 		[NSApp run];
 	}
 	return 0;
