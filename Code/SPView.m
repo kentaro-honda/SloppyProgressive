@@ -42,7 +42,7 @@
 	CGSize size;
 
 	options = [NSDictionary dictionaryWithObjectsAndKeys:
-								[NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
+								@NO, NSFullScreenModeAllScreens,
 							// NSFullScreenModeSetting,
 					 [NSNumber numberWithUnsignedInteger:NSScreenSaverWindowLevel],
 							NSFullScreenModeWindowLevel,
@@ -66,16 +66,32 @@
 
 - (void)cancelOperation:(id)sender
 {
-    [self exitFullScreenModeWithOptions:nil];
+	if (![[self.delegate.objectController valueForKeyPath:@"selection.isWorking"] boolValue]) {
+		[self exitFullScreenModeWithOptions:nil];
+	}
 }
-// - (void)keyDown:(NSEvent *)theEvent
-// {
-// 	NSString *character;
-// 	character = [theEvent characters];
 
-// 	if ([character isEqualToString:@"s"]){
-// 	}
-// }
+- (void)keyDown:(NSEvent *)theEvent
+{
+	NSString *character;
+	character = [theEvent characters];
+
+	if ([character isEqualToString:@"s"]) {
+		[self.delegate start];
+	}
+	else if ([character isEqualToString:@"e"]) {
+		[self.delegate stop];
+	}
+	else if ([character isEqualToString:@"c"]) {
+		[self.delegate clear];
+	}
+	else if ([character isEqualToString:@" "]) {
+		[self.delegate toggle];
+	}
+	else {
+		[self interpretKeyEvents:@[theEvent]];
+	}
+}
 
 - (void)drawRect:(NSRect)dirtyRect
 {

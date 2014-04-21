@@ -33,6 +33,10 @@
 
 - (void)start;
 {
+	if (self.timer) {
+		return;
+	}
+
 	self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(count) userInfo:nil repeats:YES];
 }
 
@@ -52,6 +56,11 @@
 	self.secondString = @"00";
 	self.minuteString = @"00";
 	self.description = @"00:00.0";
+}
+
+- (BOOL)isWorking
+{
+	return (self.timer) ? [self.timer isValid] : NO;
 }
 
 - (void)count

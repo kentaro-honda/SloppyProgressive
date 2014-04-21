@@ -1,13 +1,22 @@
 #import <Cocoa/Cocoa.h>
 #import "SPGUIController.h"
+#import "SPArrayController.h"
 
-@interface SPAppDelegate : NSObject <NSApplicationDelegate, SPGUIControllerDelegate>
+@interface SPAppDelegate : NSObject <NSApplicationDelegate, SPGUIControllerDelegate, SPRecordDelegate>
 {
 }
 
-@property SPGUIController *guicontroller;
+@property SPGUIController *guiController;
 @property NSObjectController *objectController;
+@property SPArrayController *arrayController;
 
-- (void)buttonClicked:(id)sender;
+- (void)importTime;
+- (void)start;
+- (void)stop;
+- (void)clear;
+- (void)toggle;
+
+- (void)save;
+- (NSString *)nameFromStudentID:(NSString *)studentID;
 
 @end

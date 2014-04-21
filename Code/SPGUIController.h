@@ -3,7 +3,9 @@
 
 @protocol SPGUIControllerDelegate <SPViewDelegate>
 
-- (void)buttonClicked:(id)sender;
+@property NSArrayController *arrayController;
+
+- (void)importTime;
 
 @end
 
