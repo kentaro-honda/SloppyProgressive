@@ -7,7 +7,6 @@ app : Code/*.m
 	mkdir -p SloppyProgressive.app/Contents/MacOS
 	mv SloppyProgressive SloppyProgressive.app/Contents/MacOS/
 	cp -r Info.plist PkgInfo Resources SloppyProgressive.app/Contents/
-	SloppyProgressive.app/Contents/MacOS/SloppyProgressive
 
 analyze :
 	${CC} -ObjC -fobjc-arc --analyze Code/*.m 
@@ -17,7 +16,6 @@ debug : Code/*.m
 	mkdir -p SloppyProgressive.app/Contents/MacOS
 	mv SloppyProgressive SloppyProgressive.app/Contents/MacOS/
 	cp -r Info.plist PkgInfo Resources SloppyProgressive.app/Contents/
-	lldb SloppyProgressive.app/Contents/MacOS/SloppyProgressive
 
 clean :
 	rm -rf SloppyProgressive.app SloppyProgressive.dSYM *~ */*~
