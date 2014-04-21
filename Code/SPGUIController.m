@@ -1,5 +1,6 @@
 #import "SPGUIController.h"
 #import "SPQuestionTransformer.h"
+#import "SPDateTransformer.h"
 #import "SPPassedValueTransformer.h"
 #import "SPPassedColorTransformer.h"
 #import "SPView.h"
@@ -23,7 +24,7 @@
 {
 	NSScrollView *scrollView;
 	NSTableView *tableView;
-	NSTableColumn *questionColumn, *passedColumn;
+	NSTableColumn *questionColumn, *passedColumn, *dateColumn;
 	NSPopUpButton *question;
 	NSTextField *qLabel, *idLabel, *nameLabel, *timeLabel;
 	NSTextField *studentID, *name, *time;
@@ -45,11 +46,13 @@
 		tableView = [[NSTableView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 643.0, 420.0)];
 		[tableView bind:@"content" toObject:self.delegate.arrayController withKeyPath:@"arrangedObjects" options:nil];
 		[tableView bind:@"selectionIndexes" toObject:self.delegate.arrayController withKeyPath:@"selectionIndexes" options:nil];
+		[tableView bind:@"sortDescriptors" toObject:self.delegate.arrayController withKeyPath:@"sortDescriptors" options:nil];
 		[tableView addTableColumn:[self newTableColumnWithIdentifier:@"identifier"]];
 		questionColumn = [[NSTableColumn alloc] initWithIdentifier:@"question"];
 		[questionColumn.headerCell setStringValue:@"question"];
 		questionColumn.editable = NO;
 		[questionColumn bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"arrangedObjects.question" options:@{NSValueTransformerBindingOption:[[SPQuestionTransformer alloc] init]}];
+		[questionColumn sizeToFit];
 		[tableView addTableColumn:questionColumn];
 		[tableView addTableColumn:[self newTableColumnWithIdentifier:@"studentID"]];
 		[tableView addTableColumn:[self newTableColumnWithIdentifier:@"name"]];
@@ -59,7 +62,14 @@
 		passedColumn.editable = NO;
 		[passedColumn bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"arrangedObjects.passed" options:@{NSValueTransformerBindingOption:[[SPPassedValueTransformer alloc] init]}];
 		[passedColumn bind:@"textColor" toObject:self.delegate.arrayController withKeyPath:@"arrangedObjects.passed" options:@{NSValueTransformerBindingOption:[[SPPassedColorTransformer alloc] init]}];
+		[passedColumn sizeToFit];
 		[tableView addTableColumn:passedColumn];
+		dateColumn = [[NSTableColumn alloc] initWithIdentifier:@"date"];
+		[dateColumn.headerCell setStringValue:@"date"];
+		dateColumn.editable = NO;
+		[dateColumn bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"arrangedObjects.date" options:@{NSValueTransformerBindingOption:[[SPDateTransformer alloc] init]}];
+		dateColumn.width = 80.0;
+		[tableView addTableColumn:dateColumn];
 		scrollView.documentView = tableView;
 		[self.window.contentView addSubview:scrollView];
 
@@ -98,7 +108,7 @@
 
 		timeLabel = [self newLabelWithValue:@"Time" withFrame:NSMakeRect(405.0, 22.0, 35.0, 17.0)];
 		[self.window.contentView addSubview:timeLabel];
-		time = [[NSTextField alloc] initWithFrame:NSMakeRect(445.0, 19.0, 54.0, 18.0)];
+		time = [[NSTextField alloc] initWithFrame:NSMakeRect(445.0, 21.0, 54.0, 18.0)];
 		time.editable = NO;
 		time.drawsBackground = NO;
 		time.bordered = NO;
@@ -152,6 +162,7 @@
 	tableColumn = [[NSTableColumn alloc] initWithIdentifier:identifier];
 	[tableColumn.headerCell setStringValue:identifier];
 	tableColumn.editable = NO;
+	tableColumn.width = 80.0;
 	[tableColumn bind:@"value" toObject:self.delegate.arrayController withKeyPath:[NSString stringWithFormat:@"arrangedObjects.%@", identifier] options:nil];
 
 	return tableColumn;

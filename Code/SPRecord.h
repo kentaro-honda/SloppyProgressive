@@ -20,6 +20,7 @@
 @property NSString *name;
 @property NSString *time;
 @property BOOL passed;
+@property NSDate *date;
 
 + (NSArray *)arrayWithContentsOfURL:(NSURL *)URL;
 - (NSDictionary *)dictionary;

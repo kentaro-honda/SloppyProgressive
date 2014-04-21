@@ -2,4 +2,5 @@
 *.app
 *.dSYM
 SP*.plist
+main.plist
 Resources/studentid.plist

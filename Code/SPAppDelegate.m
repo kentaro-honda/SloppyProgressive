@@ -23,6 +23,7 @@
 		self.objectController = [[NSObjectController alloc] initWithContent:self.stopWatch];
 		self.arrayController = [[SPArrayController alloc] initWithContent:nil];
 		self.arrayController.objectClass = [SPRecord class];
+		self.arrayController.automaticallyRearrangesObjects = YES;
 		self.arrayController.delegate = self;
 		self.guiController = nil;
 		self.studentMap = nil;

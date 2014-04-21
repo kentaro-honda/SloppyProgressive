@@ -37,6 +37,7 @@ NSUInteger staticID = 0;
 		record.name = dictionary[@"name"];
 		record.passed = [dictionary[@"passed"] boolValue];
 		record.time = dictionary[@"time"];
+		record.date = dictionary[@"date"];
 
 		staticID = record.identifier + 1;
 
@@ -61,6 +62,7 @@ NSUInteger staticID = 0;
 		self.name = @"";
 		self.passed = NO;
 		self.time = @"00:00.0";
+		self.date = [NSDate date];
 	}
 
 	return self;
@@ -73,7 +75,8 @@ NSUInteger staticID = 0;
 			@"studentID":self.studentID,
 			@"name":self.name,
 			@"passed":[NSNumber numberWithBool:self.passed],
-			@"time":self.time};
+			@"time":self.time,
+			@"date":self.date};
 }
 
 - (void)setStudentID:(NSString *)newStudentID
