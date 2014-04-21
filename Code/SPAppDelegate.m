@@ -70,6 +70,16 @@
 	self.stopWatch = nil;
 }
 
+- (void)add
+{
+	[self.arrayController add:self];
+}
+
+- (void)showTimer
+{
+	[self.guiController showTimerWindow];
+}
+
 - (NSString *)nameFromStudentID:(NSString *)studentID
 {
 	if (!studentID || !self.studentMap) {

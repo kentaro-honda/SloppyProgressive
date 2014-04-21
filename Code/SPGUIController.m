@@ -78,6 +78,8 @@
 		[add setBezelStyle:NSShadowlessSquareBezelStyle];
 		[add setTarget:self.delegate.arrayController];
 		[add setAction:@selector(add:)];
+		add.keyEquivalent = @"n";
+		add.keyEquivalentModifierMask = NSCommandKeyMask;
 		[add bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"canAdd" options:nil];
 		[self.window.contentView addSubview:add];
 
@@ -126,6 +128,8 @@
 		[import setBezelStyle:NSShadowlessSquareBezelStyle];
 		[import setTarget:self.delegate];
 		[import setAction:@selector(importTime)];
+		import.keyEquivalent = @"i";
+		import.keyEquivalentModifierMask = NSCommandKeyMask;
 		[import bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"canRemove" options:nil];
 		[self.window.contentView addSubview:import];
 
@@ -133,6 +137,8 @@
 		[screen setTitle:@">"];
 		[screen setBezelStyle:NSShadowlessSquareBezelStyle];
 		[screen setTarget:self];
+		screen.keyEquivalent = @"2";
+		screen.keyEquivalentModifierMask = NSCommandKeyMask;
 		[screen setAction:@selector(showTimerWindow)];
 		[self.window.contentView addSubview:screen];
 

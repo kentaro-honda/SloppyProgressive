@@ -18,5 +18,7 @@
 
 - (void)save;
 - (NSString *)nameFromStudentID:(NSString *)studentID;
+- (void)add;
+- (void)showTimer;
 
 @end

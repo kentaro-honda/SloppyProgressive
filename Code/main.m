@@ -22,9 +22,11 @@ NSMenu *newMainMenu(void)
 	NSMenu *menu;
 	NSMenu *applicationMenu;
 	NSMenu *fileMenu;
+	NSMenu *editMenu;
 	NSMenu *windowMenu;
 	NSMenuItem *applicationMenuItem;
 	NSMenuItem *fileMenuItem;
+	NSMenuItem *editMenuItem;
 	NSMenuItem *windowMenuItem;
 	NSString *name;
 	
@@ -58,6 +60,9 @@ NSMenu *newMainMenu(void)
 
 	fileMenuItem = [[NSMenuItem alloc] init];
 	fileMenu = [[NSMenu alloc] initWithTitle:@"File"];
+	[fileMenu addItemWithTitle:@"Save"
+						action:@selector(save)
+				 keyEquivalent:@"s"];
 	[fileMenu addItemWithTitle:@"Close Window"
 						action:@selector(performClose:)
 				 keyEquivalent:@"w"];
@@ -66,6 +71,33 @@ NSMenu *newMainMenu(void)
 	[menu addItem:fileMenuItem];
 	fileMenuItem = nil;
 	
+	editMenuItem = [[NSMenuItem alloc] init];
+	editMenu = [[NSMenu alloc] initWithTitle:@"Edit"];
+	[editMenu addItemWithTitle:@"Undo"
+						action:@selector(undo:)
+				 keyEquivalent:@"z"];
+	[editMenu addItemWithTitle:@"Redo"
+						action:@selector(redo:)
+				 keyEquivalent:@"z"];
+	[[editMenu itemWithTitle:@"Redo"] setKeyEquivalentModifierMask:NSShiftKeyMask|NSCommandKeyMask];
+	[editMenu addItem:[NSMenuItem separatorItem]];
+	[editMenu addItemWithTitle:@"Cut"
+						action:@selector(cut:)
+				 keyEquivalent:@"x"];
+	[editMenu addItemWithTitle:@"Copy"
+						action:@selector(copy:)
+				 keyEquivalent:@"c"];
+	[editMenu addItemWithTitle:@"Paste"
+						action:@selector(paste:)
+				 keyEquivalent:@"v"];
+	[editMenu addItemWithTitle:@"Select All"
+						action:@selector(selectAll:)
+				 keyEquivalent:@"a"];
+	[editMenuItem setSubmenu:editMenu];
+	editMenu = nil;
+	[menu addItem:editMenuItem];
+	editMenuItem = nil;
+
 	windowMenuItem = [[NSMenuItem alloc] init];
 	windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
 	[windowMenu addItemWithTitle:@"Minimize"
