@@ -4,9 +4,11 @@
 #define SPRECORD_INVALID_ID_CHARACTER_CODE 1
 #define SPRECORD_INVALID_ID_LENGTH_CODE 2
 
-@protocol SPRecordDelegate
+@protocol SPRecordDelegate <NSObject>
 
+@optional
 - (NSString *)nameFromStudentID:(NSString *)studentID;
+- (NSString *)completeStudentID:(NSString *)brokenID;
 
 @end
 

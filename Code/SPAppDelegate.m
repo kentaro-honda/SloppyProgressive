@@ -80,6 +80,37 @@
 	[self.guiController showTimerWindow];
 }
 
+- (NSString *)completeStudentID:(NSString *)brokenID
+{
+	NSArray *ids;
+	NSString *candidate;
+	NSUInteger brokenLength, idLength;
+
+	if (!brokenID || !self.studentMap) {
+		return nil;
+	}
+
+	brokenLength = [brokenID length];
+	candidate = nil;
+	ids = [self.studentMap allKeys];
+
+	for (NSString *identifier in ids) {
+		idLength = [identifier length];
+		if (idLength < brokenLength) {
+			continue;
+		}
+		
+		if ([[identifier substringFromIndex:idLength - brokenLength] isEqualToString:brokenID]) {
+			if (candidate) {
+				return nil;
+			}
+			candidate = identifier;
+		}
+	}
+
+	return candidate;
+}
+
 - (NSString *)nameFromStudentID:(NSString *)studentID
 {
 	if (!studentID || !self.studentMap) {

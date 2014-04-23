@@ -18,6 +18,7 @@
 
 - (void)save;
 - (NSString *)nameFromStudentID:(NSString *)studentID;
+- (NSString *)completeStudentID:(NSString *)brokenID;
 - (void)add;
 - (void)showTimer;
 

@@ -84,7 +84,7 @@ NSUInteger staticID = 0;
 	NSString *newName;
 
 	newName = nil;
-	if (![studentID isEqualToString:newStudentID]){
+	if (![studentID isEqualToString:newStudentID] && [self.delegate respondsToSelector:@selector(nameFromStudentID:)]){
 		newName = [self.delegate nameFromStudentID:newStudentID];
 	}
 	studentID = newStudentID;
@@ -101,6 +101,7 @@ NSUInteger staticID = 0;
 - (BOOL)validateStudentID:(NSString **)newStudentID error:(NSError *__autoreleasing *)outError
 {
 	NSUInteger length;
+	NSString *completed;
 
 	if (!*newStudentID) {
 		return YES;
@@ -117,6 +118,14 @@ NSUInteger staticID = 0;
 
 	length = [*newStudentID length];
 	if (length != 8) {
+		if ([self.delegate respondsToSelector:@selector(completeStudentID:)]) {
+			completed = [self.delegate completeStudentID:*newStudentID];
+			if (completed != nil) {
+				*newStudentID = completed;
+				return YES;
+			}
+		}
+
 		if (outError) {
             *outError = [[NSError alloc] initWithDomain:SPRECORD_ERROR_DOMAIN
 												   code:SPRECORD_INVALID_ID_LENGTH_CODE
