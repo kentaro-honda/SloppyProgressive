@@ -9,6 +9,7 @@
 @property NSString *secondString;
 @property NSString *minuteString;
 @property (readwrite) NSTimer *timer;
+@property (readwrite) BOOL isOver;
 
 - (void)count;
 
@@ -26,6 +27,8 @@
 		self.secondString = @"00";
 		self.minuteString = @"00";
 		self.description = @"00:00.0";
+		self.milli_limit = self.second_limit = self.minute_limit = NSUIntegerMax;
+		self.isOver = NO;
 	}
 
 	return self;
@@ -56,6 +59,7 @@
 	self.secondString = @"00";
 	self.minuteString = @"00";
 	self.description = @"00:00.0";
+	self.isOver = NO;
 }
 
 - (BOOL)isWorking
@@ -69,6 +73,10 @@
 
 	if (self.milli < 10){
 		self.description = [NSString stringWithFormat:@"%@:%@.%ld", self.minuteString, self.secondString, self.milli];
+		if (!self.isOver && self.minute == self.minute_limit && self.second == self.second_limit && self.milli == self.milli_limit) {
+			self.isOver = YES;
+			NSBeep();
+		}
 		return;
 	}
 	self.milli = 0;
@@ -77,6 +85,10 @@
 	if (self.second < 60){
 		self.secondString = [NSString stringWithFormat:(self.second < 10) ? @"0%ld" : @"%ld", self.second];
 		self.description = [NSString stringWithFormat:@"%@:%@.%ld", self.minuteString, self.secondString, self.milli];
+		if (!self.isOver && self.minute == self.minute_limit && self.second == self.second_limit && self.milli == self.milli_limit) {
+			self.isOver = YES;
+			NSBeep();
+		}
 		return;
 	}
 	self.second = 0;
@@ -86,6 +98,10 @@
 	if (self.minute < 100){
 		self.minuteString = [NSString stringWithFormat:(self.minute < 10) ? @"0%ld" : @"%ld", self.minute];
 		self.description = [NSString stringWithFormat:@"%@:%@.%ld", self.minuteString, self.secondString, self.milli];
+		if (!self.isOver && self.minute == self.minute_limit && self.second == self.second_limit && self.milli == self.milli_limit) {
+			self.isOver = YES;
+			NSBeep();
+		}
 		return;
 	}
 	self.minute = 0;

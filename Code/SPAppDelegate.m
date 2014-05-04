@@ -20,6 +20,9 @@
 
 	if (self){
 		self.stopWatch = [[SPStopWatch alloc] init];
+		self.stopWatch.minute_limit = 15;
+		self.stopWatch.second_limit = 0;
+		self.stopWatch.milli_limit = 0;
 		self.objectController = [[NSObjectController alloc] initWithContent:self.stopWatch];
 		self.arrayController = [[SPArrayController alloc] initWithContent:nil];
 		self.arrayController.objectClass = [SPRecord class];

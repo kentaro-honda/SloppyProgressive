@@ -1,4 +1,5 @@
 #import "SPView.h"
+#import "SPColorTransformer.h"
 
 #define OFFSET 30
 
@@ -112,6 +113,7 @@
 	textField.bordered = NO;
 	textField.textColor = [NSColor whiteColor];
 	textField.alignment = NSCenterTextAlignment;
+	[textField bind:@"textColor" toObject:self.delegate.objectController withKeyPath:@"selection.isOver" options:@{NSValueTransformerBindingOption:[[SPColorTransformer alloc] init]}];
 	return textField;
 }
 @end
