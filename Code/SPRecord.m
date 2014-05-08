@@ -7,6 +7,8 @@ NSUInteger staticID = 0;
 	NSString *studentID;
 }
 
+@property (readwrite) BOOL editable;
+
 @end
 
 @implementation SPRecord
@@ -38,6 +40,7 @@ NSUInteger staticID = 0;
 		record.passed = [dictionary[@"passed"] boolValue];
 		record.time = dictionary[@"time"];
 		record.date = dictionary[@"date"];
+		record.editable = [record.date timeIntervalSinceNow] > -24*60*60;
 
 		staticID = record.identifier + 1;
 
@@ -63,6 +66,7 @@ NSUInteger staticID = 0;
 		self.passed = NO;
 		self.time = @"00:00.0";
 		self.date = [NSDate date];
+		self.editable = YES;
 	}
 
 	return self;

@@ -94,24 +94,30 @@
 			[question addItemWithTitle:[NSString stringWithFormat:@"%lu", i]];
 		}
 		[question bind:@"selectedIndex" toObject:self.delegate.arrayController withKeyPath:@"selection.question" options:nil];
+		[question bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:question];
 
 		idLabel = [self newLabelWithValue:@"ID" withFrame:NSMakeRect(134.0, 22.0, 18.0, 17.0)];
 		[self.window.contentView addSubview:idLabel];
 		studentID = [[NSTextField alloc] initWithFrame:NSMakeRect(158.0, 19.0, 74.0, 22.0)];
 		[studentID bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"selection.studentID" options:@{NSValidatesImmediatelyBindingOption:@YES}];
+		studentID.selectable = YES;
+		[studentID bind:@"editable" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:studentID];
 		
 		nameLabel = [self newLabelWithValue:@"Name" withFrame:NSMakeRect(240.0, 22.0, 41.0, 17.0)];
 		[self.window.contentView addSubview:nameLabel];
 		name = [[NSTextField alloc] initWithFrame:NSMakeRect(283.0, 19.0, 118.0, 22.0)];
 		[name bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"selection.name" options:nil];
+		name.selectable = YES;
+		[name bind:@"editable" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:name];
 
 		timeLabel = [self newLabelWithValue:@"Time" withFrame:NSMakeRect(405.0, 22.0, 35.0, 17.0)];
 		[self.window.contentView addSubview:timeLabel];
 		time = [[NSTextField alloc] initWithFrame:NSMakeRect(445.0, 21.0, 54.0, 18.0)];
 		time.editable = NO;
+		time.selectable = YES;
 		time.drawsBackground = NO;
 		time.bordered = NO;
 		[time bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"selection.time" options:nil];
@@ -121,6 +127,7 @@
 		[passed setTitle:@"passed"];
 		[passed setButtonType:NSSwitchButton];
 		[passed bind:@"value" toObject:self.delegate.arrayController withKeyPath:@"selection.passed" options:nil];
+		[passed bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:passed];
 
 		import = [[NSButton alloc] initWithFrame:NSMakeRect(574.0, 20.0, 20.0, 20.0)];
@@ -130,7 +137,7 @@
 		[import setAction:@selector(importTime)];
 		import.keyEquivalent = @"i";
 		import.keyEquivalentModifierMask = NSCommandKeyMask;
-		[import bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"canRemove" options:nil];
+		[import bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:import];
 
 		screen = [[NSButton alloc] initWithFrame:NSMakeRect(604.0, 20.0, 20.0, 20.0)];

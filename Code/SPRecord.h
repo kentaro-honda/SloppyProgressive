@@ -23,6 +23,7 @@
 @property NSString *time;
 @property BOOL passed;
 @property NSDate *date;
+@property (readonly) BOOL editable;
 
 + (NSArray *)arrayWithContentsOfURL:(NSURL *)URL;
 - (NSDictionary *)dictionary;
