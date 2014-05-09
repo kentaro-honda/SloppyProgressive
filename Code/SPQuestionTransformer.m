@@ -18,7 +18,7 @@
 
 	number = [(NSNumber *)value unsignedIntegerValue];
 
-	return (number == 0) ? @"none" : [NSString stringWithFormat:(number < 11) ? @"0%ld" : @"%ld", number-1];
+	return (number == 0) ? @"none" : (number > 100) ? @"04.5" : [NSString stringWithFormat:(number < 11) ? @"0%ld" : @"%ld", number-1];
 }
 
 @end

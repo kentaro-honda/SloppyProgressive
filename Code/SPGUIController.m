@@ -93,6 +93,7 @@
 		for (i = 10; i < 100; ++i) {
 			[question addItemWithTitle:[NSString stringWithFormat:@"%lu", i]];
 		}
+		[question addItemWithTitle:@"04.5"];
 		[question bind:@"selectedIndex" toObject:self.delegate.arrayController withKeyPath:@"selection.question" options:nil];
 		[question bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:question];
