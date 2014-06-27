@@ -23,10 +23,12 @@ NSMenu *newMainMenu(void)
 	NSMenu *applicationMenu;
 	NSMenu *fileMenu;
 	NSMenu *editMenu;
+	NSMenu *viewMenu;
 	NSMenu *windowMenu;
 	NSMenuItem *applicationMenuItem;
 	NSMenuItem *fileMenuItem;
 	NSMenuItem *editMenuItem;
+	NSMenuItem *viewMenuItem;
 	NSMenuItem *windowMenuItem;
 	NSString *name;
 	
@@ -97,6 +99,29 @@ NSMenu *newMainMenu(void)
 	editMenu = nil;
 	[menu addItem:editMenuItem];
 	editMenuItem = nil;
+
+	viewMenuItem = [[NSMenuItem alloc] init];
+	viewMenu = [[NSMenu alloc] initWithTitle:@"View"];
+	[viewMenu addItemWithTitle:@"Show All"
+						action:@selector(unfilter)
+				 keyEquivalent:@"0"];
+	[viewMenu addItem:[NSMenuItem separatorItem]];
+	[viewMenu addItemWithTitle:@"Show Passed"
+						action:@selector(filterPassed)
+				 keyEquivalent:@"9"];
+	[viewMenu addItemWithTitle:@"Show One"
+						action:@selector(filterOne)
+				 keyEquivalent:@"8"];
+	[viewMenu addItemWithTitle:@"Show Two"
+						action:@selector(filterTwo)
+				 keyEquivalent:@"7"];
+	[viewMenu addItemWithTitle:@"Show Four"
+						action:@selector(filterFour)
+				 keyEquivalent:@"6"];
+	[viewMenuItem setSubmenu:viewMenu];
+	viewMenu = nil;
+	[menu addItem:viewMenuItem];
+	viewMenuItem = nil;
 
 	windowMenuItem = [[NSMenuItem alloc] init];
 	windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];

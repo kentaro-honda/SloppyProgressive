@@ -9,6 +9,8 @@
 @property NSDictionary *studentMap;
 
 - (NSURL *)recordURL;
+- (void)filterWithNumber:(NSUInteger)n;
+- (NSArray *)sortedPassedStudentIDs;
 
 @end
 
@@ -175,13 +177,89 @@
 		return;
 	}
 
-	array = self.arrayController.arrangedObjects;
+	array = self.arrayController.content;
 	saveArray = [NSMutableArray array];
 	for (SPRecord *record in array) {
 		[saveArray addObject:[record dictionary]];
 	}
 
 	[saveArray writeToURL:recordURL atomically:YES];
+}
+
+- (void)unfilter
+{
+	self.arrayController.filterPredicate = nil;
+}
+
+- (void)filterPassed
+{
+	NSPredicate *predicate;
+
+	predicate = [NSPredicate predicateWithFormat:@"passed == YES"];
+	self.arrayController.filterPredicate = predicate;
+}
+
+- (void)filterOne
+{
+	NSArray *sortedIDs;
+	NSMutableSet *tempIDs;
+	NSPredicate *predicate;
+	NSUInteger i, j;
+
+	sortedIDs = [self sortedPassedStudentIDs];
+	tempIDs = [NSMutableSet set];
+	for (i = 0; i < [sortedIDs count]-1; ++i){
+		if ([sortedIDs[i] isEqualToString:sortedIDs[i+1]]) {
+			for (j = i+2; j < [sortedIDs count]; ++j) {
+				if (![sortedIDs[i] isEqualToString:sortedIDs[j]]) {
+					break;
+				}
+			}
+			i = j-1;
+		}
+		else {
+			[tempIDs addObject:sortedIDs[i]];
+		}
+	}
+
+	predicate = [NSPredicate predicateWithFormat:@"passed == YES && studentID in %@", tempIDs];
+	self.arrayController.filterPredicate = predicate;
+}
+
+- (void)filterTwo
+{
+	[self filterWithNumber:2];
+}
+
+- (void)filterFour
+{
+	[self filterWithNumber:4];
+}
+
+
+- (void)filterWithNumber:(NSUInteger)n
+{
+	NSArray *sortedIDs;
+	NSMutableSet *tempIDs;
+	NSPredicate *predicate;
+	NSUInteger i, j;
+
+	sortedIDs = [self sortedPassedStudentIDs];
+	tempIDs = [NSMutableSet set];
+	for (i = 0; i < [sortedIDs count]-(n-1); ++i){
+		if ([sortedIDs[i] isEqualToString:sortedIDs[i+(n-1)]]) {
+			[tempIDs addObject:sortedIDs[i]];
+			for (j = i+n; j < [sortedIDs count]; ++j) {
+				if (![sortedIDs[i] isEqualToString:sortedIDs[j]]) {
+					break;
+				}
+			}
+			i = j-1;
+		}
+	}
+
+	predicate = [NSPredicate predicateWithFormat:@"passed == YES && studentID in %@", tempIDs];
+	self.arrayController.filterPredicate = predicate;
 }
 
 - (NSURL *)recordURL
@@ -206,6 +284,20 @@
 	}
 
     return [dirURL URLByAppendingPathComponent:@"data.plist"];
+}
+
+- (NSArray *)sortedPassedStudentIDs
+{
+	NSArray *filtered;
+	NSArray *studentIDs;
+	NSPredicate *predicate;
+
+	predicate = [NSPredicate predicateWithFormat:@"passed == YES"];
+	filtered = [self.arrayController.content filteredArrayUsingPredicate:predicate];
+	studentIDs = [filtered valueForKey:@"studentID"];
+	return [studentIDs sortedArrayUsingComparator:^(id obj1, id obj2){
+			return [(NSString *)obj1 compare:(NSString *)obj2];
+		}];
 }
 
 @end

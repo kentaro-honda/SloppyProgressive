@@ -22,4 +22,10 @@
 - (void)add;
 - (void)showTimer;
 
+- (void)unfilter;
+- (void)filterPassed;
+- (void)filterOne;
+- (void)filterTwo;
+- (void)filterFour;
+
 @end
