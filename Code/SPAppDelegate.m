@@ -236,6 +236,37 @@
 	[self filterWithNumber:4];
 }
 
+- (void)filterUnique
+{
+	NSArray *records;
+	NSArray *sorteds;
+	NSMutableSet *tempIDs;
+	NSPredicate *predicate;
+	NSUInteger i, j;
+
+	records = self.arrayController.arrangedObjects;
+	sorteds = [records sortedArrayUsingComparator:^(id obj1, id obj2){
+			return [((SPRecord *)obj1).studentID compare:((SPRecord *)obj2).studentID];
+		}];
+	tempIDs = [NSMutableSet set];
+	for (i = 0; i < [sorteds count]; ++i){
+		[tempIDs addObject:[NSNumber numberWithUnsignedInteger:((SPRecord *)sorteds[i]).identifier]];
+		for (j = i+1; j < [sorteds count]; ++j) {
+			if (![((SPRecord *)sorteds[i]).studentID isEqualToString:((SPRecord *)sorteds[j]).studentID]) {
+				break;
+			}
+		}
+		i = j-1;
+	}
+
+	predicate = [NSPredicate predicateWithFormat:@"identifier in %@", tempIDs];
+	if (self.arrayController.filterPredicate){
+		self.arrayController.filterPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate,self.arrayController.filterPredicate]];
+	}
+	else{
+		self.arrayController.filterPredicate = predicate;
+	}
+}
 
 - (void)filterWithNumber:(NSUInteger)n
 {

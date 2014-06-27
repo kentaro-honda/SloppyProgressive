@@ -27,5 +27,6 @@
 - (void)filterOne;
 - (void)filterTwo;
 - (void)filterFour;
+- (void)filterUnique;
 
 @end

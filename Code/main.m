@@ -118,6 +118,10 @@ NSMenu *newMainMenu(void)
 	[viewMenu addItemWithTitle:@"Show Four"
 						action:@selector(filterFour)
 				 keyEquivalent:@"6"];
+	[viewMenu addItem:[NSMenuItem separatorItem]];
+	[viewMenu addItemWithTitle:@"Make Name Unique"
+						action:@selector(filterUnique)
+				 keyEquivalent:@"5"];
 	[viewMenuItem setSubmenu:viewMenu];
 	viewMenu = nil;
 	[menu addItem:viewMenuItem];
