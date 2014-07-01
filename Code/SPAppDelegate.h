@@ -17,8 +17,9 @@
 - (void)toggle;
 
 - (void)save;
+- (void)export;
 - (NSString *)nameFromStudentID:(NSString *)studentID;
-- (NSString *)completeStudentID:(NSString *)brokenID;
+- (NSString *)completeStudentID:(NSString *)brokenIDExp;
 - (void)add;
 - (void)showTimer;
 

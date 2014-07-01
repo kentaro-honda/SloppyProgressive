@@ -65,6 +65,11 @@ NSMenu *newMainMenu(void)
 	[fileMenu addItemWithTitle:@"Save"
 						action:@selector(save)
 				 keyEquivalent:@"s"];
+	[editMenu addItem:[NSMenuItem separatorItem]];
+	[fileMenu addItemWithTitle:@"Export"
+						action:@selector(export)
+				 keyEquivalent:@"e"];
+	[editMenu addItem:[NSMenuItem separatorItem]];
 	[fileMenu addItemWithTitle:@"Close Window"
 						action:@selector(performClose:)
 				 keyEquivalent:@"w"];

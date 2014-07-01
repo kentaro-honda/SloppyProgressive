@@ -9,6 +9,7 @@
 @property NSDictionary *studentMap;
 
 - (NSURL *)recordURL;
+- (NSURL *)exportURL;
 - (void)filterWithNumber:(NSUInteger)n;
 - (NSArray *)sortedPassedStudentIDs;
 
@@ -85,35 +86,23 @@
 	[self.guiController showTimerWindow];
 }
 
-- (NSString *)completeStudentID:(NSString *)brokenID
+- (NSString *)completeStudentID:(NSString *)brokenIDExp
 {
-	NSArray *ids;
-	NSString *candidate;
-	NSUInteger brokenLength, idLength;
+	NSArray *ids, *candidates;
+	NSPredicate *predicate;
 
-	if (!brokenID || !self.studentMap) {
+	if (!brokenIDExp || !self.studentMap) {
 		return nil;
 	}
 
-	brokenLength = [brokenID length];
-	candidate = nil;
 	ids = [self.studentMap allKeys];
-
-	for (NSString *identifier in ids) {
-		idLength = [identifier length];
-		if (idLength < brokenLength) {
-			continue;
-		}
-		
-		if ([[identifier substringFromIndex:idLength - brokenLength] isEqualToString:brokenID]) {
-			if (candidate) {
-				return nil;
-			}
-			candidate = identifier;
-		}
+	predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", brokenIDExp];
+	candidates = [ids filteredArrayUsingPredicate:predicate];
+	if ([candidates count] == 1) {
+		return candidates[0];
 	}
-
-	return candidate;
+	
+	return nil;
 }
 
 - (NSString *)nameFromStudentID:(NSString *)studentID
@@ -184,6 +173,43 @@
 	}
 
 	[saveArray writeToURL:recordURL atomically:YES];
+}
+
+- (void)export
+{
+	NSUInteger indices[6] = {0, 1, 2, 4, 5, 3};
+	NSUInteger i;
+	NSURL *exportURL;
+	NSArray *filtered, *sorted;
+	NSPredicate *predicate;
+	NSMutableString *string;
+	NSMutableString *maskedID, *studentID;
+
+	exportURL = [self exportURL];
+	if (!exportURL) {
+		return;
+	}
+
+	predicate = [NSPredicate predicateWithFormat:@"passed == YES"];
+	filtered = [self.arrayController.content filteredArrayUsingPredicate:predicate];
+	sorted = [filtered sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"question" ascending:YES],
+													 [NSSortDescriptor sortDescriptorWithKey:@"studentID" ascending:YES]]];
+
+	string = [NSMutableString string];
+	for (SPRecord *record in sorted) {
+		maskedID = [NSMutableString stringWithString:record.studentID];
+		for (i = 0; i < 6; ++i) {
+			studentID = [NSMutableString stringWithString:maskedID];
+			[studentID replaceCharactersInRange:NSMakeRange(indices[i], 1) withString:@"*"];
+			if (![self completeStudentID:[studentID stringByReplacingOccurrencesOfString:@"*" withString:@"[0-9]"]]){
+				break;
+			}
+			maskedID = studentID;
+		}
+		[string appendFormat:@" \t<li>Q%lu\t\t%@</li>\n", record.question-1, maskedID];
+	}
+
+	[string writeToURL:exportURL atomically:YES encoding:NSUnicodeStringEncoding error:NULL];
 }
 
 - (void)unfilter
@@ -315,6 +341,24 @@
 	}
 
     return [dirURL URLByAppendingPathComponent:@"data.plist"];
+}
+
+- (NSURL *)exportURL
+{
+	NSFileManager* fm;
+	NSURL *fileURL;
+	NSArray* desktopURLs;
+	NSString *bundleID;
+
+    fm = [NSFileManager defaultManager];
+	bundleID = [[NSBundle mainBundle] bundleIdentifier];
+    desktopURLs = [fm URLsForDirectory:NSDesktopDirectory inDomains:NSUserDomainMask];
+    if (![desktopURLs count]) {
+		return nil;
+	}
+
+	fileURL = [desktopURLs[0] URLByAppendingPathComponent:bundleID];
+    return [fileURL URLByAppendingPathExtension:@"txt"];
 }
 
 - (NSArray *)sortedPassedStudentIDs

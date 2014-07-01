@@ -123,7 +123,7 @@ NSUInteger staticID = 0;
 	length = [*newStudentID length];
 	if (length != 8) {
 		if ([self.delegate respondsToSelector:@selector(completeStudentID:)]) {
-			completed = [self.delegate completeStudentID:*newStudentID];
+			completed = [self.delegate completeStudentID:[NSString stringWithFormat:@"[0-9]*%@", *newStudentID]];
 			if (completed != nil) {
 				*newStudentID = completed;
 				return YES;
