@@ -206,7 +206,7 @@
 			}
 			maskedID = studentID;
 		}
-		[string appendFormat:@" \t<li>Q%lu\t\t%@</li>\n", record.question-1, maskedID];
+		[string appendFormat:@" \t<li>問題%lu\t\t%@</li>\n", record.question-1, maskedID];
 	}
 
 	[string writeToURL:exportURL atomically:YES encoding:NSUnicodeStringEncoding error:NULL];
