@@ -206,7 +206,12 @@
 			}
 			maskedID = studentID;
 		}
-		[string appendFormat:@" \t<li>問題%lu\t\t%@</li>\n", record.question-1, maskedID];
+		if (record.question > 10) {
+			[string appendFormat:@"\t\t<li>問題%lu 　%@</li>\n", record.question-1, maskedID];
+		}
+		else {
+			[string appendFormat:@"\t\t<li>問題%lu　　%@</li>\n", record.question-1, maskedID];
+		}
 	}
 
 	[string writeToURL:exportURL atomically:YES encoding:NSUnicodeStringEncoding error:NULL];
