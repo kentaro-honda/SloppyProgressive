@@ -10,7 +10,6 @@
 @property NSObjectController *objectController;
 @property SPArrayController *arrayController;
 
-- (void)importTime;
 - (void)start;
 - (void)stop;
 - (void)clear;

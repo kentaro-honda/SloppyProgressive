@@ -111,7 +111,7 @@ NSUInteger staticID = 0;
 		return YES;
 	}
 	
-	if (![[NSCharacterSet decimalDigitCharacterSet] isSupersetOfSet:[NSCharacterSet characterSetWithCharactersInString:*newStudentID]]) {
+	if (![[NSCharacterSet characterSetWithCharactersInString:@"0123456789*"] isSupersetOfSet:[NSCharacterSet characterSetWithCharactersInString:*newStudentID]]) {
 		if (outError) {
             *outError = [[NSError alloc] initWithDomain:SPRECORD_ERROR_DOMAIN
 												   code:SPRECORD_INVALID_ID_CHARACTER_CODE
@@ -123,7 +123,7 @@ NSUInteger staticID = 0;
 	length = [*newStudentID length];
 	if (length != 8) {
 		if ([self.delegate respondsToSelector:@selector(completeStudentID:)]) {
-			completed = [self.delegate completeStudentID:[NSString stringWithFormat:@"[0-9]*%@", *newStudentID]];
+			completed = [self.delegate completeStudentID:[NSString stringWithFormat:@"[0-9]*%@", [*newStudentID stringByReplacingOccurrencesOfString:@"*" withString:@"[0-9]"]]];
 			if (completed != nil) {
 				*newStudentID = completed;
 				return YES;

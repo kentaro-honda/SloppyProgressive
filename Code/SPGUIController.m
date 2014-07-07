@@ -29,21 +29,21 @@
 	NSTextField *qLabel, *idLabel, *nameLabel, *timeLabel;
 	NSTextField *studentID, *name, *time;
 	NSButton *passed;
-	NSButton *import, *add, *screen;
+	NSButton *add, *screen;
 	NSUInteger i;
 	self = [super init];
 
 	if (self) {
 		self.delegate = delegate;
 
-		self.window = [[NSWindow alloc] initWithContentRect:NSMakeRect(350.0, 300.0, 643.0, 480.0) 
+		self.window = [[NSWindow alloc] initWithContentRect:NSMakeRect(350.0, 300.0, 613.0, 480.0) 
 												  styleMask:NSTitledWindowMask|NSMiniaturizableWindowMask
 													backing:NSBackingStoreBuffered 
 													  defer:NO];
 
-		scrollView = [[NSScrollView alloc] initWithFrame:NSMakeRect(0.0, 60.0, 643.0, 420.0)];
+		scrollView = [[NSScrollView alloc] initWithFrame:NSMakeRect(0.0, 60.0, 613.0, 420.0)];
 		scrollView.borderType = NSBezelBorder;
-		tableView = [[NSTableView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 643.0, 420.0)];
+		tableView = [[NSTableView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 613.0, 420.0)];
 		[tableView bind:@"content" toObject:self.delegate.arrayController withKeyPath:@"arrangedObjects" options:nil];
 		[tableView bind:@"selectionIndexes" toObject:self.delegate.arrayController withKeyPath:@"selectionIndexes" options:nil];
 		[tableView bind:@"sortDescriptors" toObject:self.delegate.arrayController withKeyPath:@"sortDescriptors" options:nil];
@@ -131,17 +131,7 @@
 		[passed bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
 		[self.window.contentView addSubview:passed];
 
-		import = [[NSButton alloc] initWithFrame:NSMakeRect(574.0, 20.0, 20.0, 20.0)];
-		[import setTitle:@"i"];
-		[import setBezelStyle:NSShadowlessSquareBezelStyle];
-		[import setTarget:self.delegate];
-		[import setAction:@selector(importTime)];
-		import.keyEquivalent = @"i";
-		import.keyEquivalentModifierMask = NSCommandKeyMask;
-		[import bind:@"enabled" toObject:self.delegate.arrayController withKeyPath:@"selection.editable" options:nil];
-		[self.window.contentView addSubview:import];
-
-		screen = [[NSButton alloc] initWithFrame:NSMakeRect(604.0, 20.0, 20.0, 20.0)];
+		screen = [[NSButton alloc] initWithFrame:NSMakeRect(574.0, 20.0, 20.0, 20.0)];
 		[screen setTitle:@">"];
 		[screen setBezelStyle:NSShadowlessSquareBezelStyle];
 		[screen setTarget:self];

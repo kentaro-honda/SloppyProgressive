@@ -5,8 +5,6 @@
 
 @property NSArrayController *arrayController;
 
-- (void)importTime;
-
 @end
 
 @interface SPGUIController : NSObject

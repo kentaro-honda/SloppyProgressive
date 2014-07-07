@@ -23,8 +23,8 @@
 
 	if (self){
 		self.stopWatch = [[SPStopWatch alloc] init];
-		self.stopWatch.minute_limit = 15;
-		self.stopWatch.second_limit = 0;
+		self.stopWatch.minute_limit = 0;
+		self.stopWatch.second_limit = 3;
 		self.stopWatch.milli_limit = 0;
 		self.objectController = [[NSObjectController alloc] initWithContent:self.stopWatch];
 		self.arrayController = [[SPArrayController alloc] initWithContent:nil];
@@ -61,6 +61,8 @@
 	}
 	self.arrayController.selectionIndexes = nil;
  
+	[self.stopWatch bind:@"description" toObject:self.arrayController withKeyPath:@"selection.time" options:nil];
+
 	self.guiController = [[SPGUIController alloc] initWithDelegate:self];
 	[self.guiController showWindow];
 }
@@ -114,39 +116,39 @@
 	return self.studentMap[studentID];
 }
 
-- (void)importTime
-{
-	NSArray *selectedObjects;
-
-	selectedObjects = self.arrayController.selectedObjects;
-	if (!selectedObjects || ![selectedObjects count]) {
-		return;
-	}
-
-	if (!self.stopWatch) {
-		return;
-	}
-
-	[self.arrayController setValue:self.stopWatch.description forKeyPath:@"selection.time"];
-}
-
 - (void)start
 {
+	if (![[self.arrayController valueForKeyPath:@"selection.editable"] boolValue]) {
+		return;
+	}
+	
 	[self.stopWatch start];
 }
 
 - (void)stop
 {
+	if (![[self.arrayController valueForKeyPath:@"selection.editable"] boolValue]) {
+		return;
+	}
+	
 	[self.stopWatch stop];
 }
 
 - (void)clear
 {
+	if (![[self.arrayController valueForKeyPath:@"selection.editable"] boolValue]) {
+		return;
+	}
+	
 	[self.stopWatch clear];
 }
 
 - (void)toggle
 {
+	if (![[self.arrayController valueForKeyPath:@"selection.editable"] boolValue]) {
+		return;
+	}
+	
 	if (self.stopWatch.isWorking) {
 		[self.stopWatch stop];
 	}
